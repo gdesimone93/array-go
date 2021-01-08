@@ -19,9 +19,9 @@ func (l *LinkedList) insert(v int) {
 		l.len++
 		return
 	}
-	pr :=l.head
+	pr := l.head
 	for i := 0; i < l.len; i++ {
-		if pr.node == nil{
+		if pr.node == nil {
 			pr.node = &n
 			l.len++
 			return
@@ -31,8 +31,6 @@ func (l *LinkedList) insert(v int) {
 
 }
 
-
-
 func main() {
 	l := LinkedList{}
 	l.insert(2)
@@ -40,20 +38,21 @@ func main() {
 	l.insert(5)
 	fmt.Println(l.head.value)
 	fmt.Println(l.head.node.value)
+	fmt.Println(l.head.node.node.value)
 	fmt.Println("ACA ELIMINO")
 
-	l.delete(4)
+	l.delete(5)
 	fmt.Println(l.head.value)
 	fmt.Println(l.head.node.value)
+	//fmt.Println(l.head.node.node.value)
 	//fmt.Println(n.node)
 }
 
+func (l *LinkedList) findNode(v int) *Node {
 
-func (l *LinkedList) findNode(v int) *Node{
-
-	pr :=l.head
+	pr := l.head
 	for i := 0; i < l.len; i++ {
-		if pr.value == v{
+		if pr.value == v {
 			return pr
 		}
 		pr = pr.node
@@ -68,23 +67,29 @@ func (l *LinkedList) size() int {
 
 func (l *LinkedList) delete(v int) {
 
-	if(l.head.value == v){
-		if(l.len==1){
+	if l.head.value == v {
+		if l.len == 1 {
 			l.head = nil
-		}else{
+		} else {
 			l.head = l.head.node.node
 		}
 		return
 	}
-	first :=l.head
+	first := l.head
 
 	for i := 0; i < l.len; i++ {
-		if first.node.value == v{
-			n := l.findNode(first.node.node.value)
-			first.node = n
-			l.len--
-			return
+		if first.node.value == v {
+			if first.node.node != nil {
+				n := l.findNode(first.node.node.value)
+				first.node = n
+				l.len--
+				return
+			} else {
+				first.node = nil
+				return
+			}
 		}
+		first = first.node
 
 	}
 
